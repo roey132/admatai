@@ -1,25 +1,4 @@
-const canvas = document.getElementById("myCanvas");
-const context = canvas.getContext('2d')
-
-window.addEventListener('resize',resizeCanvas,false)
-
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    canvas.fillStyle = '#3464eb'
-}
-
-resizeCanvas()
-
-const jsConfetti = new JSConfetti({ canvas })
-
-jsConfetti.addConfetti({
-  emojis: ['עד מתי' ,' כמה עוד'],
-  confettiRadius: 10,
-  confettiNumber: 35,
-  emojiSize: 70,
-})
-
+var confettiCount = 50
 var countDownDate = new Date('Jun 30, 2022 00:00:00').getTime()
 
 function createTimer() {
@@ -42,7 +21,76 @@ function createTimer() {
   document.getElementById('timer').innerHTML = counter
 }
 
+
+function createConfettiDiv(id, top, right) {
+
+  var textArray = ['עד מתי', 'כמה עוד']
+  var item = textArray[Math.floor(Math.random()*textArray.length)]
+
+  document.addEventListener('DOMContentLoaded',function(){
+    var div = document.createElement('div')
+    div.id = id
+    div.className = 'confetti'
+    div.innerHTML = item
+    div.style.position = 'absolute'
+    div.style.overflow = 'hidden'
+    div.style.top = top
+    div.style.right = right
+
+    var timing = Math.random() + 1.5
+    div.style.transition = 'top '+ timing +'s ease-in , right '+ timing+'s linear'
+
+    var tilt = Math.random() * 10
+    tilt *= Math.round(Math.random()) ? 1:-1;
+    div.style.transform = 'rotate('+ tilt + 'deg)'
+    
+    document.getElementById('page').appendChild(div)
+
+  })
+  console.log('success')
+}
+
+
+function createConfetti() {
+  var w = window.innerWidth - (0.1 * window.innerWidth)
+  for (let i = 0; i < confettiCount; i++){
+    var tops = -Math.floor(Math.random() * 1500 + 200) + 'px'
+    var right = Math.floor(Math.random() * w) + 'px'
+    createConfettiDiv('confetti'+i, tops , right)
+  }
+}
+
+
 createTimer()
 var myfunc = setInterval(function(){
   createTimer()
 }, 1000)
+
+function throwConfetti() {
+  var h = window.innerHeight
+  for (let i = 0; i<confettiCount; i++){
+    var tops = Math.floor(Math.random() * 1000 + h + 200)
+    var right = Math.floor(Math.random() * 200 + 20 )
+    right *= Math.round(Math.random()) ? 1: -1;
+
+    document.getElementById('confetti'+i).style.top = tops +'px'
+  
+    var currRight = document.getElementById('confetti'+i).style.right
+    document.getElementById('confetti'+i).style.right = (parseInt(currRight,10) + right)
+  }
+  setTimeout(function(){
+    for (let i = 0; i<confettiCount; i++){
+      document.getElementById('confetti'+i).remove()
+    }
+  },2500)
+}
+
+function confetti(){
+  createConfetti()
+  setTimeout(function(){
+    throwConfetti()
+  },1)
+}
+
+document.getElementById('timer').onclick = function() {confetti()}
+confetti()
