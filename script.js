@@ -1,6 +1,6 @@
 var confettiCount = 50
 var countDownDate = new Date('Jun 30, 2022 00:00:00').getTime()
-
+var activated = false
 function createTimer() {
 
   var now = new Date().getTime()
@@ -27,27 +27,25 @@ function createConfettiDiv(id, top, right) {
   var textArray = ['עד מתי', 'כמה עוד']
   var item = textArray[Math.floor(Math.random()*textArray.length)]
 
-  document.addEventListener('DOMContentLoaded',function(){
-    var div = document.createElement('div')
-    div.id = id
-    div.className = 'confetti'
-    div.innerHTML = item
-    div.style.position = 'absolute'
-    div.style.overflow = 'hidden'
-    div.style.top = top
-    div.style.right = right
+  var div = document.createElement('div')
+  div.id = id
+  div.className = 'confetti'
+  div.innerHTML = item
+  div.style.position = 'absolute'
+  div.style.overflow = 'hidden'
+  div.style.top = top
+  div.style.right = right
 
-    var timing = Math.random() + 1.5
-    div.style.transition = 'top '+ timing +'s ease-in , right '+ timing+'s linear'
+  var timing = Math.random() + 1.5
+  div.style.transition = 'top '+ timing +'s ease-in , right '+ timing+'s linear'
 
-    var tilt = Math.random() * 10
-    tilt *= Math.round(Math.random()) ? 1:-1;
-    div.style.transform = 'rotate('+ tilt + 'deg)'
-    
-    document.getElementById('page').appendChild(div)
+  var tilt = Math.random() * 10
+  tilt *= Math.round(Math.random()) ? 1:-1;
+  div.style.transform = 'rotate('+ tilt + 'deg)'
+  
+  document.getElementById('page').appendChild(div)
 
-  })
-  console.log('success')
+
 }
 
 
@@ -78,14 +76,20 @@ function throwConfetti() {
     var currRight = document.getElementById('confetti'+i).style.right
     document.getElementById('confetti'+i).style.right = (parseInt(currRight,10) + right)
   }
+
   setTimeout(function(){
-    for (let i = 0; i<confettiCount; i++){
-      document.getElementById('confetti'+i).remove()
-    }
+    
   },2500)
+
 }
 
 function confetti(){
+  if (activated){
+    for (let i = 0; i<confettiCount; i++){
+      document.getElementById('confetti'+i).remove()
+    }
+  }
+  activated = true
   createConfetti()
   setTimeout(function(){
     throwConfetti()
