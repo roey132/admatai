@@ -24,7 +24,7 @@ function createTimer() {
 
 function createConfettiDiv(id, top, right) {
 
-  var textArray = ['עד מתי', 'כמה עוד']
+  var textArray = ['עד מתי', 'כמה עוד', 'למה אכלתי','איפה כולם']
   var item = textArray[Math.floor(Math.random()*textArray.length)]
 
   var div = document.createElement('div')
