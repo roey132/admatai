@@ -67,6 +67,7 @@ function createConfetti(id,timing) {
 
 
 function throwConfetti(id) {
+  setTimeout(function(){
   var h = window.innerHeight
   var tops = Math.floor(Math.random() * 1000 + h + 200)
   var right = Math.floor(Math.random() * 200 + 20 )
@@ -75,7 +76,7 @@ function throwConfetti(id) {
   document.getElementById(id).style.top = tops +'px'
 
   var currRight = document.getElementById(id).style.right
-  document.getElementById(id).style.right = (parseInt(currRight,10) + right)
+  document.getElementById(id).style.right = (parseInt(currRight,10) + right)},1)
 }
 
 function deleteConfetti(id, timing){
