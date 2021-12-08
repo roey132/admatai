@@ -1,19 +1,24 @@
 <html>
 <head>
-    <meta charset = "utf-8"/>
-    <link rel="stylesheet" href="assets/style.css">
+	<meta charset = "utf-8"/>
+	<link rel="stylesheet" href="assets/style.css">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div id='page'>
-        <div id='toolbar'></div>
-        <div id='timer'>---:--:--:--</div>
-        <div id='downtoolbar'></div>
-    </div>
+	<div id='page'>
+		<div id='toolbar'>
+			<div id='timer-type-buttons'>
+				<button id='set-timer-to-days'>ימים</button>
+				<button id='set-timer-to-seconds'>שניות</button>
+			</div>
+		</div>
+		<div id='timer' class='unselectable'>---:--:--:--</div>
+		<div id='downtoolbar'></div>
+	</div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>

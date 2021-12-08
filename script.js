@@ -1,8 +1,10 @@
-var confettiCount = 50
+var confettiCount = 70
 var countDownDate = new Date('Jun 30, 2022 00:00:00').getTime()
-var activated = false
-var currId = 0
-function createTimer() {
+var currConfettiId = 0
+var timerType = 'days'
+var timerIntervalFunc = NaN
+
+function createDaysTimer() {
 
   var now = new Date().getTime()
   var timeleft = countDownDate - now
@@ -22,16 +24,44 @@ function createTimer() {
   document.getElementById('timer').innerHTML = counter
 }
 
+function createSecondsTimer(){
+  var now=new Date().getTime()
+  var timeleft = countDownDate-now
 
-createTimer()
-var myfunc = setInterval(function(){
-  createTimer()
-}, 1000)
+  document.getElementById('timer').innerHTML = Math.floor(timeleft/1000)
+}
 
+function timerInterval(){
+  clearInterval(timerIntervalFunc)
+  if(timerType==='days'){
+    createDaysTimer()
+    timerIntervalFunc = setInterval(function(){
+    createDaysTimer()
+    },1000)
+  }
 
+  if(timerType==='seconds'){
+    createSecondsTimer()
+    timerIntervalFunc = setInterval(function(){
+      createSecondsTimer()
+    },1000)
+  }
+}
+
+function setTimerType(e){
+  if(e.target.textContent==='שניות'){
+    timerType = 'seconds'
+  }
+  if(e.target.textContent==='ימים'){
+    timerType = 'days'
+  }
+  timerInterval()
+}
+
+timerInterval()
 
 function randomTiming() {
-  var timing = Math.random() + 1.5
+  var timing = Math.random() + 2.2
   return timing
 }
 
@@ -42,7 +72,7 @@ function createConfettiDiv(id, top, right, timing) {
 
   var div = document.createElement('div')
   div.id = id
-  div.className = 'confetti'
+  div.className = 'confetti , unselectable'
   div.innerHTML = item
   div.style.position = 'absolute'
   div.style.overflow = 'hidden'
@@ -60,7 +90,7 @@ function createConfettiDiv(id, top, right, timing) {
 
 function createConfetti(id,timing) {
   var w = window.innerWidth - (0.1 * window.innerWidth)
-  var tops = -Math.floor(Math.random() * 1500 + 200) + 'px'
+  var tops = -Math.floor(Math.random() * 2500 + 200) + 'px'
   var right = Math.floor(Math.random() * w) + 'px'
   createConfettiDiv(id, tops , right, timing)
 }
@@ -85,16 +115,18 @@ function deleteConfetti(id, timing){
   },timing*1000)
 }
 
-function confetti(){
+function confetti(e){
 
   for (let i = 0; i<confettiCount; i++){
     var rndTiming = randomTiming()
-    var id = 'confetti'+(currId+i)
+    var id = 'confetti'+(currConfettiId+i)
     createConfetti(id, rndTiming)
     throwConfetti(id)
     deleteConfetti(id,rndTiming)
   }
-  currId += 50
+  currConfettiId += 50
 }
 
-document.getElementById('timer').onclick = function() {confetti()}
+document.getElementById('timer').addEventListener('click',confetti)
+document.getElementById('set-timer-to-seconds').addEventListener('click',setTimerType)
+document.getElementById('set-timer-to-days').addEventListener('click',setTimerType)
