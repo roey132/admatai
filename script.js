@@ -1,6 +1,6 @@
 var confettiCount = 70
 var countDownDate = new Date('Jun 30, 2022 00:00:00').getTime()
-var currConfettiId = 0
+var currConfettiCounter = 0
 var timerType = 'days'
 var timerIntervalFunc = NaN
 
@@ -31,31 +31,50 @@ function createSecondsTimer(){
   document.getElementById('timer').innerHTML = Math.floor(timeleft/1000)
 }
 
-function timerInterval(){
+function createMilisecondsTimer(){
+  var now=new Date().getTime()
+  var timeleft = countDownDate-now
+
+  document.getElementById('timer').innerHTML = timeleft
+}
+
+function timerInterval(time){
   clearInterval(timerIntervalFunc)
   if(timerType==='days'){
     createDaysTimer()
     timerIntervalFunc = setInterval(function(){
     createDaysTimer()
-    },1000)
+    },time)
   }
 
   if(timerType==='seconds'){
     createSecondsTimer()
     timerIntervalFunc = setInterval(function(){
       createSecondsTimer()
-    },1000)
+    },time)
+  }
+
+  if(timerType==='miliseconds'){
+    timerIntervalFunc= setInterval(function(){
+      createMilisecondsTimer()
+    },time)
   }
 }
 
 function setTimerType(e){
   if(e.target.textContent==='שניות'){
     timerType = 'seconds'
+    timerInterval(1000)
+
   }
   if(e.target.textContent==='ימים'){
     timerType = 'days'
+    timerInterval(1000)
   }
-  timerInterval()
+  if(e.target.textContent==='מילי-שניות'){
+    timerType= 'miliseconds'
+    timerInterval(1)
+  }
 }
 
 timerInterval()
@@ -116,7 +135,8 @@ function deleteConfetti(id, timing){
 }
 
 function confetti(e){
-
+  var currConfettiId = currConfettiCounter
+  currConfettiCounter += 50
   for (let i = 0; i<confettiCount; i++){
     var rndTiming = randomTiming()
     var id = 'confetti'+(currConfettiId+i)
@@ -124,9 +144,9 @@ function confetti(e){
     throwConfetti(id)
     deleteConfetti(id,rndTiming)
   }
-  currConfettiId += 50
 }
 
 document.getElementById('timer').addEventListener('click',confetti)
 document.getElementById('set-timer-to-seconds').addEventListener('click',setTimerType)
 document.getElementById('set-timer-to-days').addEventListener('click',setTimerType)
+document.getElementById('set-timer-to-miliseconds').addEventListener('click',setTimerType)

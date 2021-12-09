@@ -1,3 +1,6 @@
+:root{
+    --timer-buttons-count: 3;
+}
 body{
     background-color: olivedrab;
     margin: 0;
@@ -40,10 +43,6 @@ body{
     font-size: 5vmin;
     white-space: nowrap;
 }
-#timer-type-buttons{
-    position:absolute;
-}
-
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -51,4 +50,14 @@ body{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.timer-button{
+    height: 80%;
+    width: calc(100% / var(--timer-buttons-count));
+}
+#timer-type-buttons-flex{
+    display: flex;
+    height:100%;
+    width: calc(10% * var(--timer-buttons-count));
 }
